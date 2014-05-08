@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link type="text/css" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+	<!--<script src="../src/adamczak.strings.js"></script>-->
+	<script src="../dist/adamczak.angular.min.js"></script>
+	<script>
+
+	var app = angular.module("app", ['adamczak.strings'])
+	.controller("Demo", function($scope) {
+		$scope.person = {
+			lastname: '',
+			mi: '',
+			firstname: '',
+			phone: {
+				area:'',
+				number:''
+			},
+			text: 'A long time ago, in a galaxy far, far away.... It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire.'
+		}
+		$scope.truncateOpts = {
+			maxLength: 25,
+			suffix: '...'
+		}
+	});
+
+	</script>
+</head>
+<body ng-app="app">
+
+<div class="container" ng-controller="Demo">
+<h4>Prefix & Suffix directives</h4>
+<p>Allows for adding of leading or trailing punctuation if a value exists. Does not change the value</p>
+<input type="text" ng-model="person.firstname" placeholder="First" />
+<input type="text" ng-model="person.mi" maxlength="1" style="width:40px" placeholder="M.I." />
+<input type="text" ng-model="person.lastname" placeholder="Last" />
+<div>
+	{{person.firstname}} <span wrapvalue="person.mi" suffix="."></span> {{person.lastname}}
+	<div ng-if="person.mi">
+		<i>M.I. = {{person.mi}}</i>
+	</div>
+</div>
+<hr/>
+<input type="text" ng-model="person.phone.areacode" placeholder="Area" maxlength="3" style="width:40px;"/>
+<input type="text" ng-model="person.phone.number" placeholder="Number"  />
+<div>
+	<span wrapvalue="person.phone.areacode" prefix="(" suffix=")"></span> {{person.phone.number}}
+</div>
+<h4>Truncate filter</h4>
+<p>Truncates a string at a length and optionally adds a suffix</p>
+<textarea style="width:500px; height:75px;" type="text" ng-model="person.text"></textarea>
+<div>
+		Truncate at: <input type="text" ng-model="truncateOpts.maxLength" style="width:50px" />  Suffix with: <input type="text" ng-model="truncateOpts.suffix" style="width:50px" />
+</div>
+<div>
+{{person.text|truncate:truncateOpts.maxLength:truncateOpts.suffix}}
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
